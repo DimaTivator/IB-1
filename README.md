@@ -228,3 +228,55 @@ python3 app.py
   "results": []
 }
 ```
+
+## Тестирование
+### 1. Curl
+
+Регистрация
+```
+curl -X POST http://127.0.0.1:5000/auth/register \
+    -H "Content-Type: application/json" \
+    -d '{"login": "user1", "password": "password123"}'
+
+{
+  "message": "User registered successfully"
+}
+```
+
+Авторизация 
+```
+curl -X POST http://127.0.0.1:5000/auth/login \
+    -H "Content-Type: application/json" \
+    -d '{"login": "user1", "password": "password123"}'
+
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3NTg4MjE2NzN9.3c0licGOoO09gewvbuFIuTHMGm079k5fwgHbHnOAgr0"
+}
+```
+
+Получение списка пользователей
+```
+curl -X GET http://127.0.0.1:5000/api/data \
+    -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3NTg4MjE2NzN9.3c0licGOoO09gewvbuFIuTHMGm079k5fwgHbHnOAgr0"
+
+[
+  {
+    "id": 1,
+    "login": "user1"
+  },
+  {
+    "id": 2,
+    "login": "user777"
+  }
+]
+```
+
+Попытка получения списка пользователей с некорректным токеном
+```
+curl -X GET http://127.0.0.1:5000/api/data \
+    -H "Authorization: Bearer aaaa"                                                                                                                     
+{
+  "error": "Invalid or expired token"
+}
+```
