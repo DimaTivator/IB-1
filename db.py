@@ -1,5 +1,6 @@
 import sqlite3
-from flask import g, escape
+from flask import g
+from markupsafe import escape
 
 DATABASE = "app.db"
 

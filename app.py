@@ -1,6 +1,7 @@
 import os
 import dotenv
-from flask import Flask, request, jsonify, session, escape
+from flask import Flask, request, jsonify, session
+from markupsafe import escape
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import db
